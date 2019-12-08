@@ -1,6 +1,7 @@
 <?php
 require("db.php");
 
+
 if(isset($_GET['add_location'])) {
     add_location();
 }
@@ -10,6 +11,7 @@ if(isset($_GET['addBengkel'])) {
 if(isset($_GET['editBengkel'])) {
     editBengkel();
 }
+
 function query($query) {
     global $conn;
     $result = mysqli_query($conn, $query);
@@ -50,8 +52,8 @@ function editBengkel(){
             nama_bengkel = '$nama_bengkel',
             pemilik = '$pemilik',
             hp = '$hp',
-            $lat = '$lat',
-            $lng = '$lng'
+            lat = '$lat',
+            lng = '$lng'
             WHERE id = '".$id."'
             ";  
     $result = mysqli_query($conn,$query);
@@ -69,7 +71,6 @@ function get_saved_locations(){
     $rows = array();
     while($r = mysqli_fetch_assoc($sqldata)) {
         $rows[] = $r;
-
     }
     $indexed = array_map('array_values', $rows);
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 $title = "Data Bengkel";
 include 'config.php';
 $dataBengkel = query("SELECT * FROM bengkel");

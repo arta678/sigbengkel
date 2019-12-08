@@ -1,4 +1,5 @@
 <?php
+session_start();
 $title = "Edit Bengkel";
 $id = $_GET["id"];
 include 'config.php';
@@ -17,6 +18,7 @@ $bengkel = query("SELECT * FROM bengkel
       <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <link href="css/simple-sidebar.css" rel="stylesheet">
       <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" type="text/css" href="css/sw2.css">
    </head>
    <body>
       <div class="d-flex" id="wrapper">
@@ -165,11 +167,11 @@ $bengkel = query("SELECT * FROM bengkel
             $.ajax({
                 url: url,
                 method: 'GET',
-                dataType: 'json',
                 success: function(data){
                     alert(data);
                     resetForms();
-                    location.reload();
+                    
+                    // location.reload();
                     
                 }
             });

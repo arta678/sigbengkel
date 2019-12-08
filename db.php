@@ -1,6 +1,6 @@
 <?php
 // Opens a connection to a MySQL server.
-$conn=mysqli_connect ("localhost", 'root','','bengkel');
+$conn=mysqli_connect ("localhost", 'artawgn','kopibali','sigbengkel');
 if (!$conn) {
     die('Not connected : ' . mysqli_connect_error());
 }
