@@ -16,6 +16,8 @@ $bengkel = query("select * from bengkel order by id desc");
       <link href="css/simple-sidebar.css" rel="stylesheet">
       <!-- <link rel="stylesheet" href="style.css"> -->
       <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+      <!-- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' /> -->
+      <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
       <style type="text/css">
           html, body {
         height: 100%;
@@ -239,7 +241,6 @@ canvas.mapboxgl-canvas {
                <div class="row">
                   
                   <div class="col-md-12">
-                     <!-- <form action="" id="signupForm" name="tambahBengkel"> -->
                         <div class="form-group row bungkus">
                            <div class="col-md-12">
                               <div class='sidebar'>
@@ -250,12 +251,9 @@ canvas.mapboxgl-canvas {
                               </div>
 
                              <div id="map" class='map'></div>
-                    
-                              
                            </div>
                            
                         </div>
-                     <!-- </form> -->
                   </div>
                </div>
             </div>
@@ -264,15 +262,16 @@ canvas.mapboxgl-canvas {
 
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+      <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+     <!--  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script> -->
       <!-- <script src="js/mapbox.js"></script> -->
-      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
+      
       <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
-      <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+      
       <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
-      <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+   <!--    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script> -->
+<!-- <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' /> -->
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
       <!-- Menu Toggle Script -->
@@ -300,7 +299,7 @@ canvas.mapboxgl-canvas {
     // style URL
     style: 'mapbox://styles/mapbox/light-v10',
     // initial position in [long, lat] format
-    center: [115.22609, -8.684581],
+    center: [115.215523, -8.693083],
     // 115.238075,-8.677249
     // initial zoom
     zoom: 14
@@ -536,12 +535,22 @@ var stores = {
     }
   }
     map.addControl(new mapboxgl.NavigationControl());
-    map.addControl(new mapboxgl.GeolocateControl({
-          positionOptions: {
-          enableHighAccuracy: true
-          },
-          trackUserLocation: true
-          }));
+    // map.addControl(new mapboxgl.GeolocateControl({
+    //       positionOptions: {
+    //       enableHighAccuracy: true
+    //       },
+    //       trackUserLocation: true
+    //       }));
+var geolocate = new mapboxgl.GeolocateControl();
+
+map.addControl(geolocate);
+
+geolocate.on('geolocate', function(e) {
+      var lon = e.coords.longitude;
+      var lat = e.coords.latitude
+      var position = [lon, lat];
+      console.log(position);
+});
       </script>
    </body>
 </html>

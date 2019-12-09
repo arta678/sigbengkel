@@ -18,7 +18,7 @@ if (isset($_POST['submit_login'])) {
 		if ($password === $data['pwd']) {
 
 			$_SESSION['id'] = $data['id']; // SESSION ID
-			header("Location: ../index.php"); //lokasi
+			header("Location: ../dashboard.php"); //lokasi
 			exit();
 
 		}
