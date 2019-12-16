@@ -1,6 +1,6 @@
 
 <div class="bg-light border-right" id="sidebar-wrapper">
-  <div class="sidebar-heading">SIG BENGKEL</div>
+  <div class="sidebar-heading">SI BENGKEL</div>
   <div class="list-group list-group-flush">
     
 <?php if (isset($_SESSION['id'])) {?>

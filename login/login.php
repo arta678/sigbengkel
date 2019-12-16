@@ -17,7 +17,8 @@ if (isset($_POST['submit_login'])) {
 		$data = mysqli_fetch_assoc($sql);
 		if ($password === $data['pwd']) {
 
-			$_SESSION['id'] = $data['id']; // SESSION ID
+			$_SESSION['id'] = $data['id'];
+			$_SESSION['username'] = $data['username'];
 			header("Location: ../dashboard.php"); //lokasi
 			exit();
 
@@ -63,7 +64,7 @@ if (isset($_POST['submit_login'])) {
 					<?php endif; ?>
 
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="text" name="username">
+						<input class="input100" type="text" name="username" autofocus>
 						<span class="focus-input100" data-placeholder="Username"></span>
 					</div>
 

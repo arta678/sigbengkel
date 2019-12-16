@@ -2,6 +2,8 @@
 session_start();
 $title = "Dashboard";
 include 'config.php';
+$sql = mysqli_query($conn, "SELECT * FROM bengkel");
+$hasil = mysqli_num_rows($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +25,24 @@ include 'config.php';
           <button class="btn btn-light" id="menu-toggle"><span class="navbar-toggler-icon"></span></button>
         </nav>
         <div class="container-fluid">
-          <h2 class="mt-3 mb-3"><?= $title ?></h2>
-            <!-- <a href="tambahBengkel.php"><button type="button" class="btn btn-info">Tambah</button></a> -->
-        
+          <!-- <h2 class="mt-3 mb-3"><?= $title ?></h2> -->
+          <h1 class="text-secondary py-5">Selamat Datang <u class="text-uppercase"><?=$_SESSION['username'] ?></u></h1>
+            <div class="">
+                <div class="card col-md-4 no-padding border-0 mb-2 bg-secondary ml-lg-1 rounded shadow-sm dash-card trans">
+                <div class="card-body">
+                  <div class="h1 text-light text-right mb-4">
+                    <i class="fas fa-cash-register"></i>
+                  </div>
+                  <div>
+                    <div class="h4 mb-0 text-light">
+                      <h2><span class=""><?=$hasil ?></span></h2>
+                    </div>
+                    <small class="text-light text-uppercase font-weight-bold">Total Bengkel saat ini</small>
+                  </div>
+                  <div class="progress progress-xs mt-3 mb-0" style="width: 40%; height: 5px;"></div>
+                </div>
+              </div>
+            </div>
           
         </div>
       </div>

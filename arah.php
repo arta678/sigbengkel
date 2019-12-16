@@ -63,6 +63,7 @@ include 'config.php';
       $("#wrapper").toggleClass("toggled");
       });
       var tujuan = '<?php echo $_GET["tujuan"] ?>';
+      var dari = '115.22659,-8.69092';
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lndW5hIiwiYSI6ImNrMXg5MmhiNjBhNHEzYnM1b21yNDdjeTMifQ.2c3Vcum4fp-j83FLQt4asA';
         var map = new mapboxgl.Map({
             container: 'map',
@@ -75,7 +76,8 @@ include 'config.php';
             accessToken: mapboxgl.accessToken
           });
           map.addControl(directions, 'top-left');
-          directions.setOrigin('115.20437,-8.69682');
+          // directions.setOrigin('115.20437,-8.69682');
+          directions.setOrigin(dari);
           directions.setDestination(tujuan);
         });
 

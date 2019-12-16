@@ -241,11 +241,17 @@ canvas.mapboxgl-canvas {
                <div class="row">
                   
                   <div class="col-md-12">
+                    <!-- <button onclick="getLocation()">Try It</button> -->
+                                <!--   <div id="demo"></div>
+                                  <div id="lat"></div>
+                                  <div id="lon"></div> -->
                         <div class="form-group row bungkus">
                            <div class="col-md-12">
+
                               <div class='sidebar'>
                                 <div class='heading'>
                                   <h1>Daftar Bengkel</h1>
+
                                 </div>
                               <div id='listings' class='listings'></div>
                               </div>
@@ -463,7 +469,6 @@ var stores = {
     });
   });
 
-
   function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
@@ -475,13 +480,12 @@ var stores = {
     var popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) popUps[0].remove();
 
-
     var popup = new mapboxgl.Popup({closeOnClick: false})
           .setLngLat(currentFeature.geometry.coordinates)
           .setHTML('<h3 class="text-nowrap">'+ currentFeature.properties.nama_bengkel +'</h3>' +
             '<h4> <strong>Pemilik</strong> : ' + currentFeature.properties.pemilik + '</h4>'+
             '<h4><strong>Hp</strong>: ' + currentFeature.properties.hp + '</h4>'+
-            '<h4><a href="arah.php?tujuan='+currentFeature.geometry.coordinates+'">Arahkan</a></h4>')
+            '<h4><a href="arah.php?tujuan='+currentFeature.geometry.coordinates+'&dari=115.215523,-8.693083">Arahkan</a></h4>')
           .addTo(map);
   }
 
@@ -513,7 +517,6 @@ var stores = {
         details.innerHTML += '<p><strong>' + roundedDistance + ' Km</strong></p>';
       }
 
-
       link.addEventListener('click', function(e){
         // Update the currentFeature to the store associated with the clicked link
         var clickedListing = data.features[this.dataPosition];
@@ -535,22 +538,61 @@ var stores = {
     }
   }
     map.addControl(new mapboxgl.NavigationControl());
-    // map.addControl(new mapboxgl.GeolocateControl({
-    //       positionOptions: {
-    //       enableHighAccuracy: true
-    //       },
-    //       trackUserLocation: true
-    //       }));
-var geolocate = new mapboxgl.GeolocateControl();
+    map.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+          enableHighAccuracy: true
+          },
+          trackUserLocation: true
+          }));
 
-map.addControl(geolocate);
+// var geolocate = new mapboxgl.GeolocateControl();
 
-geolocate.on('geolocate', function(e) {
-      var lon = e.coords.longitude;
-      var lat = e.coords.latitude
-      var position = [lon, lat];
-      console.log(position);
-});
+// map.addControl(geolocate);
+
+// geolocate.on('geolocate', function(e) {
+//       var lon = e.coords.longitude;
+//       var lat = e.coords.latitude;
+//       var position = [lon, lat];
+//       console.log(position);
+// });
+
+// var options = {
+//   enableHighAccuracy: true,
+//   timeout: 5000,
+//   maximumAge: 0
+// };
+
+// function success(pos) {
+//   var crd = pos.coords;
+
+//   console.log('Your current position is:');
+//   console.log(`Latitude : ${crd.latitude}`);
+//   console.log(`Longitude: ${crd.longitude}`);
+//   console.log(`More or less ${crd.accuracy} meters.`);
+// }
+
+// function error(err) {
+//   console.warn(`ERROR(${err.code}): ${err.message}`);
+// }
+
+// navigator.geolocation.getCurrentPosition(showPosition);
+
+// var x = document.getElementById("demo");
+// function getLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(showPosition);
+//   } else {
+//     x.innerHTML = "Geolocation is not supported by this browser.";
+//   }
+// }
+
+// function showPosition(position) {
+//   x.innerHTML = "Latitude: " + position.coords.latitude +
+//   "<br>Longitude: " + position.coords.longitude;
+//   // var a = console.log(position.coords.latitude);
+//   // var b = console.log(position.coords.longitude);
+  
+// }
       </script>
    </body>
 </html>
