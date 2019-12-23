@@ -73,7 +73,9 @@ include 'config.php';
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
       });
-      var saved_markers = <?= get_saved_locations() ?>;
+      
+      var saved_markers = <?= get_saved_locations()?>;
+
         var user_location = [115.1622363,-8.6512212];
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2lndW5hIiwiYSI6ImNrMXg5MmhiNjBhNHEzYnM1b21yNDdjeTMifQ.2c3Vcum4fp-j83FLQt4asA';
 
