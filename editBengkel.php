@@ -74,7 +74,6 @@ $bengkel = query("SELECT * FROM bengkel
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
-      <!-- <script src="js/mapbox.js"></script> -->
       <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
       <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
       <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
@@ -94,25 +93,18 @@ $bengkel = query("SELECT * FROM bengkel
             center: user_location,
             zoom: 14
         });
-        //  geocoder here
+
         var geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
-            // limit results to Australia
-            //country: 'IN',
         });
 
         var marker ;
 
-        // After the map style has loaded on the page, add a source layer and default
-        // styling for a single point.
+      //   membuat fungsi saat peta diload
         map.on('load', function() {
             addMarker(user_location,'load');
             add_markers(saved_markers);
-
-            // Listen for the `result` event from the MapboxGeocoder that is triggered when a user
-            // makes a selection and add a symbol that matches the result.
             geocoder.on('result', function(ev) {
-                // alert("aaaaa");
                 console.log(ev.result.center);
 
             });
@@ -142,7 +134,6 @@ $bengkel = query("SELECT * FROM bengkel
             // add markers to map
             geojson.forEach(function (marker) {
                 console.log(marker);
-                // make a marker for each feature and add to the map
                 new mapboxgl.Marker()
                     .setLngLat(marker)
                     .addTo(map);
@@ -155,6 +146,7 @@ $bengkel = query("SELECT * FROM bengkel
             document.getElementById("lng").value = lngLat.lng;
             console.log('lng: ' + lngLat.lng + '<br />lat: ' + lngLat.lat);
         }
+      //   proses saat tombol edit ditekan
           $('#signupForm').submit(function(event){
             event.preventDefault();
             var id = $('#id').val();
@@ -168,11 +160,10 @@ $bengkel = query("SELECT * FROM bengkel
                 url: url,
                 method: 'GET',
                 success: function(data){
+                  //  memberikan alert
                     alert(data);
+                  //   fungsi untuk mereset form
                     resetForms();
-                    
-                    // location.reload();
-                    
                 }
             });
         });

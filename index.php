@@ -14,9 +14,7 @@ $bengkel = query("select * from bengkel order by id desc");
       <title><?= $title ?></title>
       <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <link href="css/simple-sidebar.css" rel="stylesheet">
-      <!-- <link rel="stylesheet" href="style.css"> -->
       <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
-      <!-- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' /> -->
       <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
       <style type="text/css">
           html, body {
@@ -241,10 +239,6 @@ canvas.mapboxgl-canvas {
                <div class="row">
                   
                   <div class="col-md-12">
-                    <!-- <button onclick="getLocation()">Try It</button> -->
-                                <!--   <div id="demo"></div>
-                                  <div id="lat"></div>
-                                  <div id="lon"></div> -->
                         <div class="form-group row bungkus">
                            <div class="col-md-12">
 
@@ -268,16 +262,9 @@ canvas.mapboxgl-canvas {
 
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-      <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
-     <!--  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script> -->
-      <!-- <script src="js/mapbox.js"></script> -->
-      
       <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
       
       <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
-   <!--    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script> -->
-<!-- <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' /> -->
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
       <!-- Menu Toggle Script -->
@@ -308,22 +295,20 @@ canvas.mapboxgl-canvas {
     center: [115.215523, -8.693083],
     // 115.238075,-8.677249
     // initial zoom
-    zoom: 14
+    zoom: 12
   });
 
-var stores = {
+var bengkel = {
     "type": "FeatureCollection",
 
     "features": [
     <?php foreach ($bengkel as $baris) {?>
       {
-
          "type": "Feature",
         "geometry": {
           "type": "Point",
           "coordinates": [<?php echo $baris['lng'] ?>,<?php echo $baris['lat'] ?>]
         },
-         
         "properties": {
           "id":"<?php echo $baris['id'] ?>",
           "hp": "<?php echo $baris['hp'] ?>",
@@ -332,19 +317,17 @@ var stores = {
           "pemilik": "<?php echo $baris['pemilik'] ?>"
         }
       },
-         
       <?php  } ?>
          ]
     };
   // This adds the data to the map
   map.on('load', function (e) {
-    // This is where your '.addLayer()' used to be, instead add only the source without styling a layer
     map.addSource("places", {
       "type": "geojson",
-      "data": stores
+      "data": bengkel
     });
-    // Initialize the list
-    buildLocationList(stores);
+    // membuat list daftar bengkel
+    buildLocationList(bengkel);
 
     geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -380,7 +363,7 @@ var stores = {
       map.getSource('single-point').setData(searchResult);
 
       var options = {units: 'miles'};
-      stores.features.forEach(function(store){
+      bengkel.features.forEach(function(store){
         Object.defineProperty(store.properties, 'distance', {
           value: turf.distance(searchResult, store.geometry, options),
           writable: true,
@@ -389,7 +372,7 @@ var stores = {
         });
       });
 
-      stores.features.sort(function(a,b){
+      bengkel.features.sort(function(a,b){
         if (a.properties.distance > b.properties.distance) {
           return 1;
         }
@@ -405,11 +388,11 @@ var stores = {
         listings.removeChild(listings.firstChild);
       }
 
-      buildLocationList(stores);
+      buildLocationList(bengkel);
 
       function sortLonLat(storeIdentifier) {
-        var lats = [stores.features[storeIdentifier].geometry.coordinates[1], searchResult.coordinates[1]]
-        var lons = [stores.features[storeIdentifier].geometry.coordinates[0], searchResult.coordinates[0]]
+        var lats = [bengkel.features[storeIdentifier].geometry.coordinates[1], searchResult.coordinates[1]]
+        var lons = [bengkel.features[storeIdentifier].geometry.coordinates[0], searchResult.coordinates[0]]
 
         var sortedLons = lons.sort(function(a,b){
             if (a > b) { return 1; }
@@ -431,14 +414,14 @@ var stores = {
       };
 
       sortLonLat(0);
-      createPopUp(stores.features[0]);
+      createPopUp(bengkel.features[0]);
 
     });
   });
 
   // This is where your interactions with the symbol layer used to be
   // Now you have interactions with DOM markers instead
-  stores.features.forEach(function(marker, i) {
+  bengkel.features.forEach(function(marker, i) {
     // Create an img element for the marker
     var el = document.createElement('div');
     el.id = "marker-" + i;
@@ -450,12 +433,8 @@ var stores = {
 
     el.addEventListener('click', function(e){
         // 1. Fly to the point
-        flyToStore(marker);
-
-        // 2. Close all other popups and display popup for clicked store
+        flyToBengkel(marker);
         createPopUp(marker);
-
-        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
         var activeItem = document.getElementsByClassName('active');
 
         e.stopPropagation();
@@ -469,7 +448,7 @@ var stores = {
     });
   });
 
-  function flyToStore(currentFeature) {
+  function flyToBengkel(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
         zoom: 16
@@ -522,12 +501,12 @@ var stores = {
         var clickedListing = data.features[this.dataPosition];
 
         // 1. Fly to the point
-        flyToStore(clickedListing);
+        flyToBengkel(clickedListing);
 
-        // 2. Close all other popups and display popup for clicked store
+        // 2. membuat popup saat diklik
         createPopUp(clickedListing);
 
-        // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+        // 3. membuat daftar bengkel yang diclik berubah warna
         var activeItem = document.getElementsByClassName('active');
 
         if (activeItem[0]) {
@@ -537,62 +516,15 @@ var stores = {
       });
     }
   }
+    // menambahkan navigasi control pada peta
     map.addControl(new mapboxgl.NavigationControl());
+    // membuat lokasi sekarang pada peta
     map.addControl(new mapboxgl.GeolocateControl({
           positionOptions: {
           enableHighAccuracy: true
           },
           trackUserLocation: true
           }));
-
-// var geolocate = new mapboxgl.GeolocateControl();
-
-// map.addControl(geolocate);
-
-// geolocate.on('geolocate', function(e) {
-//       var lon = e.coords.longitude;
-//       var lat = e.coords.latitude;
-//       var position = [lon, lat];
-//       console.log(position);
-// });
-
-// var options = {
-//   enableHighAccuracy: true,
-//   timeout: 5000,
-//   maximumAge: 0
-// };
-
-// function success(pos) {
-//   var crd = pos.coords;
-
-//   console.log('Your current position is:');
-//   console.log(`Latitude : ${crd.latitude}`);
-//   console.log(`Longitude: ${crd.longitude}`);
-//   console.log(`More or less ${crd.accuracy} meters.`);
-// }
-
-// function error(err) {
-//   console.warn(`ERROR(${err.code}): ${err.message}`);
-// }
-
-// navigator.geolocation.getCurrentPosition(showPosition);
-
-// var x = document.getElementById("demo");
-// function getLocation() {
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(showPosition);
-//   } else {
-//     x.innerHTML = "Geolocation is not supported by this browser.";
-//   }
-// }
-
-// function showPosition(position) {
-//   x.innerHTML = "Latitude: " + position.coords.latitude +
-//   "<br>Longitude: " + position.coords.longitude;
-//   // var a = console.log(position.coords.latitude);
-//   // var b = console.log(position.coords.longitude);
-  
-// }
       </script>
    </body>
 </html>

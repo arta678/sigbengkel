@@ -131,7 +131,6 @@ include 'config.php';
             // add markers to map
             geojson.forEach(function (marker) {
                 console.log(marker);
-                // make a marker for each feature and add to the map
                 new mapboxgl.Marker()
                     .setLngLat(marker)
                     .addTo(map);
@@ -145,6 +144,8 @@ include 'config.php';
             document.getElementById("lng").value = lngLat.lng;
             console.log('lng: ' + lngLat.lng + '<br />lat: ' + lngLat.lat);
         }
+
+      //   proses saat tombol simpan ditekan
           $('#signupForm').submit(function(event){
             event.preventDefault();
             var nama_bengkel = $('#nama_bengkel').val();
@@ -164,8 +165,6 @@ include 'config.php';
                       '',
                       'success'
                     );
-                    // location.reload();
-                    
                 }
             });
         });
